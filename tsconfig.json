@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES6",
     "module": "commonjs",
-    "jsx": "react-jsx",
     "allowJs": true,
     "rootDir": "./src",
     "typeRoots": ["./node_modules/@types",

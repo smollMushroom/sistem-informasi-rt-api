@@ -2,7 +2,6 @@ import { Role } from '@prisma/client';
 import { Post } from './IPost';
 import { User } from '@prisma/client';
 import { LetterRequest } from './ILetterRequest';
-import { EventScheduleResponse } from './IEvent';
 
 export interface UserResponseDTO {
   status: 'success' | 'fail';
@@ -87,31 +86,5 @@ export interface LetterRequestResponseDTO {
   data: {
     letterRequests: LetterRequest[];
     pagination: Pagination;
-  };
-}
-
-export interface EventScheduleMapper {
-  events: EventScheduleResponse[];
-  pagination: {
-    totalItems: number;
-    currentPage: number;
-    totalPages: number;
-    pageSize: number;
-  };
-  message: string;
-  status: string;
-}
-
-export interface EventScheduleResponseDTO {
-  message: string;
-  status: string;
-  data: {
-    events: EventScheduleResponse[];
-    pagination: {
-      totalItems: number;
-      currentPage: number;
-      totalPages: number;
-      pageSize: number;
-    };
   };
 }
