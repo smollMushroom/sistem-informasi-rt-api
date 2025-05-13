@@ -76,11 +76,14 @@ export const updateUser = async (req: Request, res: Response, next: NextFunction
   const data = req.body as UpdateUserInput;
   const id = req.params.id;
   const withProfile = req.query.withProfile
-  const user = req.user as { id: string; role: string };
+  const {role, userId} = req.user as JwtPayload;
   const option: UserOption = {withProfile: withProfile === 'true' }
   
   try {
-    if (user.role === 'warga' && user.id !== id) { 
+    console.log(userId);
+    console.log(id);
+    
+    if (role === 'warga' && userId !== id) { 
       res.status(403).json({ message: 'Warga hanya dapat mengubah data miliknya sendiri' });
       return;
     }
