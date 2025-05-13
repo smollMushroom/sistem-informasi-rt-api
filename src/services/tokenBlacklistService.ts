@@ -5,7 +5,7 @@ export const addTokenToBlacklist = async (token: string, expiresAt: Date) => {
 }
 
 export const isTokenBlacklisted = async (token: string): Promise<boolean> => {
-  const tokenInDb = await findBlacklistedToken(token);
+  const tokenInDb = await findBlacklistedToken(token || '');
   return !!tokenInDb;
 }
 

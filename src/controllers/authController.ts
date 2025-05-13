@@ -3,7 +3,7 @@ import { loginUserService, logoutUserService } from "../services/authService";
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   const { email, password } = req.body;
-
+  
   try {
     const token = await loginUserService(email, password);
     res.json({ token });

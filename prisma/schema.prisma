@@ -23,6 +23,8 @@ model User {
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   profile           Profile?
+  posts             Post[]
+  letterRequests    LetterRequest[]
 }
 
 model Profile{
@@ -30,16 +32,65 @@ model Profile{
   fullName          String
   address           String
   birthDate         String
+  birthPlace        String    @default("Bogor")
   phoneNumber       String    
   nationalId        String    
+  gender            Gender
+  nationality       String
+  religion          Religion
   phoneNumberHash   String    @unique
   nationalIdHash    String    @unique
   meritalStatus     String
   occupation        String
+  sign              String?    
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   userId            String    @unique
   user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LetterRequest {
+  id                String    @id @default(uuid())
+  userId            String
+  letterType        String      
+  letterNumber      String    @default("-")
+  status            RequestStatus @default(pending)
+  signed            String?
+  reason            String?     
+  submissionDate    DateTime  @default(now())
+  processedDate     DateTime?   
+  pickupDate        DateTime?   
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade) 
+}
+
+model BlacklistedToken {
+  id                String    @unique @default(uuid())
+  token             String    @unique
+  expiresAt         DateTime
+  createdAt         DateTime  @default(now())
+}
+
+model Post {
+  id                String    @id @default(uuid())
+  title             String
+  slug              String?   @unique
+  thumbnail         String?    
+  content           String    
+  type              PostType 
+  authorId          String?     
+  author            User?     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  publishedAt       DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+}
+
+enum RequestStatus {
+  pending
+  process
+  approved
+  rejected
+  canceled
 }
 
 enum Role {
@@ -48,9 +99,21 @@ enum Role {
   ketua
 }
 
-model BlacklistedToken {
-  id                String  @unique @default(uuid())
-  token             String  @unique
-  expiresAt         DateTime
-  createdAt         DateTime @default(now())
+enum Gender {
+  male
+  female
+}
+
+enum Religion {
+  Islam
+  Kristen
+  Katolik
+  Hindu
+  Buddha
+  Konghucu
+}
+
+enum PostType {
+  announcement
+  news
 }

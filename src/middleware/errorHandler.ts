@@ -9,7 +9,7 @@ export const errorHandler = (err: any, req: Request, res: Response, next: NextFu
   if (err instanceof Prisma.PrismaClientKnownRequestError) {
     if (err.code === 'P2002') {
       const fields = (err.meta as any)?.target?.join(', ') || 'field unik';
-      err = new ConflictError(`Data dengan ${fields} sudah digunakan.`);
+      err = new ConflictError(`${fields} sudah digunakan.`);
     }
   }
 

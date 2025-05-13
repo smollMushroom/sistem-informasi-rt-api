@@ -1,7 +1,8 @@
 import { Role } from '@prisma/client';
+import { Post } from './IPost';
 
 export interface User {
-  id: String;
+  id: string;
   email: string;
   username: string;
   role: Role;
@@ -9,7 +10,8 @@ export interface User {
   passwordHash: string;
   createdAt: string;
   updatedAt: string;
-  profile: Profile;
+  profile?: Profile;
+  post?: Post
 }
 
 export interface Profile {
@@ -22,6 +24,9 @@ export interface Profile {
   phoneNumberHash: string;
   meritalStatus: string;
   occupation: string;
+  gender: 'male' | 'female';
+  nationality: string;
+  religion: 'Islam' | 'Kristen' | 'Katolik' | 'Hindu' | 'Buddha' | 'Konghucu';
 }
 
 export interface NewUserInput {
@@ -37,10 +42,14 @@ export interface NewUserProfile {
   fullName: string;
   address: string;
   birthDate: string;
+  birthPlace: string;
   nationalId: string;
   phoneNumber: string;
   meritalStatus: string;
   occupation: string;
+  gender: 'male' | 'female';
+  nationality: string;
+  religion: 'Islam' | 'Kristen' | 'Katolik' | 'Hindu' | 'Buddha' | 'Konghucu';
 }
 
 export interface UserEncryptedData {
@@ -51,20 +60,54 @@ export interface UserEncryptedData {
   phoneNumberHash: string;
 }
 
+export interface UserUpdateEncryptedData {
+  nationalId?: string;
+  nationalIdHash?: string;
+  phoneNumber?: string;
+  passwordHash?: string;
+  phoneNumberHash?: string;
+}
+
 export interface UpdateUserInput {
-  email: string;
+  email?: string;
   username?: string;
   role?: Role;
   token?: string;
-  passwordHash?: string;
-
   profile?: {
     fullName?: string;
     address?: string;
     birthDate?: string;
-    nationalId: string;
-    phoneNumber: string;
+    birthPlace?: string;
+    nationalId?: string;
+    phoneNumber?: string;
     meritalStatus?: string;
     occupation?: string;
+    gender?: 'male' | 'female';
+    nationality?: string;
+    sign?: string;
+    religion?: 'Islam' | 'Kristen' | 'Katolik' | 'Hindu' | 'Buddha' | 'Konghucu';
   };
+}
+
+export interface UserQuery {
+  withProfile?: string;
+  withPosts?: string;
+  search?: string;
+  role?: Role;
+  page?: number;
+  limit?: number;
+  skip?: number;
+  sortBy?: string;
+} 
+
+export interface UserOption{
+  withProfile?: boolean;
+  withPosts?: boolean;
+  role?: Role;
+  page?: number;
+  limit?: number;
+  skip?: number;
+  sortBy?: string;
+  search?: string;
+  order?: 'asc' | 'desc'
 }

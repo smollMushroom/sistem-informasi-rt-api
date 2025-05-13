@@ -11,12 +11,11 @@ const corsConfig: CorsOptions = {
 
 const urlencodedConfig = {
   extended: true,
-  limit: '1mb',
-  parameterLimit: 5000,
+  limit: '20mb'
 };
 
 export const setupMiddleware = (app: Express) => {
-  app.use(express.json());
+  app.use(express.json({limit: '20mb'}));
   app.use(cors(corsConfig));
   app.use(helmet());
   app.use(express.urlencoded(urlencodedConfig));

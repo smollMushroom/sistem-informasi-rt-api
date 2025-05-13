@@ -18,7 +18,7 @@ app.use('/v1', routes);
 app.use(errorHandler);
 
 app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
+  console.log(`[Server] berjalan di http://localhost:${port}`);
 });
 
 setupGracefulShutdown();

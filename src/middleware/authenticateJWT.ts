@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../utils/jwt";
 import { UnauthorizedError } from "../utils/error";
 import { isTokenBlacklisted } from "../services/tokenBlacklistService";
+import { JwtPayload } from "../interfaces/IJWT";
 
 export const authenticateJWT = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
@@ -16,7 +17,7 @@ export const authenticateJWT = async (req: Request, res: Response, next: NextFun
   }
 
   try {
-    const decode = verifyToken(token);
+    const decode = verifyToken(token) as JwtPayload ;
     req.user = decode;
     req.token = token;
     next();
