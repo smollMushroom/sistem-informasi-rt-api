@@ -69,7 +69,6 @@ export const deleteLetterRequestController = async (req: Request, res: Response,
   try {
     const id = req.params.id;
     const result = await deleteLetterRequestService(id);
-    console.log(result);
     
     res.status(200).json(result);
   } catch (error) {

@@ -103,7 +103,7 @@ export const updateLetterRequestService = async (
   input: UpdateLetterRequestInput
 ) => {
   const { role, userId, id } = input;
-
+  
   if (role === 'warga') {
     const surat = await LetterRequestRepository.getLetterRequestById(id);
 
@@ -114,8 +114,7 @@ export const updateLetterRequestService = async (
     }
   }
 
-  const updatedLetter =
-    await LetterRequestRepository.updateLetterRequest(input);
+  const updatedLetter = await LetterRequestRepository.updateLetterRequest(input);
 
   return {
     message: 'Surat berhasil diperbarui',

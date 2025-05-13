@@ -220,7 +220,7 @@ class LetterRequestRepository {
   }
 
   static async updateLetterRequest(input: UpdateLetterRequestInput) {
-    const { id, role, ...updateData } = input;
+    const { id, role, userId, ...updateData } = input;
 
     const existingRequest = await prisma.letterRequest.findUnique({
       where: { id },
