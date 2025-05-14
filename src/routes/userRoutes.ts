@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser, deleteUser, getUserByEmailOrUsername, getUsers, updateUser, whoAmI } from '../controllers/userController';
+import { checkUserIsUsed, createUser, deleteUser, getUserByEmailOrUsername, getUsers, updateUser, whoAmI } from '../controllers/userController';
 import { authenticateJWT } from '../middleware/authenticateJWT';
 import { authorizeRoles } from '../middleware/authorizeRoles';
 import { roles } from '../config/roles';
@@ -15,5 +15,6 @@ router.delete('/delete/:id', authenticateJWT, authorizeRoles(...roles.pengurus),
 router.get('/whoAmI', authenticateJWT, whoAmI);
 router.put('/update/:id', authenticateJWT,  updateUser)
 router.post('/create',validate(createUserSchema) , createUser);
+router.post('/create/account', checkUserIsUsed)
 
 export default router;

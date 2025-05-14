@@ -2,7 +2,7 @@
 import { roles } from '../config/roles';
 import { Pagination } from '../interfaces/IDTOs';
 import { UserOption, NewUserInput, UserEncryptedData, UpdateUserInput, UserUpdateEncryptedData } from '../interfaces/IUser';
-import { createUser, deleteUser, findAllUsers, updateUser } from '../repositories/userRepository';
+import { createUser, deleteUser, findAllUsers, findUser, updateUser } from '../repositories/userRepository';
 import { encrypt } from '../utils/encryption';
 import { ValidationError } from '../utils/error';
 import { hashPassword, hashString } from '../utils/hash';
@@ -91,3 +91,24 @@ export const deleteUserService = async (id: string) => {
 
   return mapUserToDTO({ message, pagination, status, users});
 }
+
+export const checkUserIsUsedService = async (option: {email?: string, username?: string}) => {
+  const email =  await findUser(option.email|| '')
+  const username =  await findUser(option.username|| '')
+  
+  const response = {
+    message: `User dapat digunakan`,
+    status:'success',
+    data: true
+  }
+
+  if(!email && !username) {
+    return response;
+  }
+
+  response.message = 'user telah digunakan';
+  response.status = 'fail'
+  response.data = false
+
+  return response;
+} 

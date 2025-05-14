@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from 'express';
-import { createUserService, deleteUserService, getUsersService, updateUserService } from '../services/userService';
+import { checkUserIsUsedService, createUserService, deleteUserService, getUsersService, updateUserService } from '../services/userService';
 import { ForbiddenError, NotFoundError } from '../utils/error';
 import { JwtPayload } from '../interfaces/IJWT';
 import { UpdateUserInput, UserOption, UserQuery } from '../interfaces/IUser';
@@ -51,6 +51,19 @@ export const getUserByEmailOrUsername = async (req: Request, res: Response, next
   }
 };
 
+export const checkUserIsUsed = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const email = req.body.email;
+    const username = req.body.username;
+
+    const isUsed = await checkUserIsUsedService({email, username});
+    
+    res.status(isUsed.data ? 200 : 209).json(isUsed)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const createUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const requester = req.user as {role?: string}
@@ -66,6 +79,7 @@ export const createUser = async (req: Request, res: Response, next: NextFunction
     }
 
     const newUser = await createUserService(req.body);
+    
     res.status(201).json(newUser);
   } catch (error) {
     next(error);
